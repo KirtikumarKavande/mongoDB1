@@ -4,7 +4,7 @@ let _db; // used internally so used _
 
 const mongoConnect = (callback) => {
   MongoClient.connect(
-    "mongodb+srv://kirtikumar:1h0cAZDgw0cgWsbd@cluster0.fsm0no3.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb+srv://kirti:<password>@cluster0.fsm0no3.mongodb.net/?retryWrites=true&w=majority"
   )
     .then((client) => {
       console.log("Connected!");
