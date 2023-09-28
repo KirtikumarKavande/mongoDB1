@@ -3,7 +3,7 @@ const mongodb = require("mongodb");
 
 class Product {
   constructor(title, price, description, imageUrl, id,userId) {
-    console.log(">>>>>>>id to update", typeof userId);
+    // console.log(">>>>>>>id to update", typeof userId);
     this.title = title;
     this.price = price;
     this.description = description;
@@ -13,7 +13,6 @@ class Product {
   }
 
   save() {
-    console.log(">>>>>>>id to update22222", this);
 
     const db = getDb();
     let dbOp;
@@ -54,7 +53,6 @@ class Product {
       .find({ _id: new mongodb.ObjectId(prodId) })
       .next()
       .then((data) => {
-        console.log(">>>>>>>>>>>>>>>>", data);
         return data;
       });
   }
