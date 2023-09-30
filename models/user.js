@@ -7,7 +7,7 @@ class User {
   constructor(username, email, cart, id) {
     this.name = username;
     this.email = email;
-    this.cart = cart || { items: [] }; 
+    this.cart = cart || { items: [] };
     this._id = id;
   }
 
@@ -44,20 +44,38 @@ class User {
         { $set: { cart: updatedCart } }
       );
   }
-   getCart(){
-    const db=getDb()
-    const productIds=this.cart.items.map(i=>{
-      return i.productId
-    })
-    return db.collection('products').find({_id:{$in:productIds}})
-    .toArray().then(products=>{
-      return products.map(p=>{
-        return {...p,quantity:this.cart.items.find(i=>{
-          return i.productId.toString()===p._id.toString()
-        }).quantity}
-      })
-    })
+  getCart() {
+    const db = getDb();
+    const productIds = this.cart.items.map((i) => {
+      return i.productId;
+    });
+    return db
+      .collection("products")
+      .find({ _id: { $in: productIds } })
+      .toArray()
+      .then((products) => {
+        return products.map((p) => {
+          return {
+            ...p,
+            quantity: this.cart.items.find((i) => {
+              return i.productId.toString() === p._id.toString();
+            }).quantity,
+          };
+        });
+      });
+  }
 
+  deleteItemFromCart(deleteCartItemId) {
+    const db = getDb();
+    const updatedCart = this.cart.items.filter((item) => {
+      return item.productId.toString() !== deleteCartItemId.toString();
+    });
+    return db
+      .collection("users")
+      .updateOne(
+        { _id: new ObjectId(this._id) },
+        { $set: { cart: { items: updatedCart } } }
+      );
   }
 
   static findById(userId) {
